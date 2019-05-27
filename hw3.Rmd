@@ -1,0 +1,153 @@
+---
+title: "pradeepkumar_hw3"
+author: "pradeepkumar"
+date: "5/24/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#QUESTION 1
+## Git clone exercise
+```
+[root@pradeepkumar-LinuxVM ~]$ mkdir GitExercise
+
+[root@pradeepkumar-LinuxVM ~]$ cd GitExercise/
+
+[root@pradeepkumar-LinuxVM GitExercise]$ git clone https://github.com/caesar0301/awesome-public-datasets
+Cloning into 'awesome-public-datasets'...
+remote: Enumerating objects: 21, done.
+remote: Counting objects: 100% (21/21), done.
+remote: Compressing objects: 100% (9/9), done.
+remote: Total 1758 (delta 12), reused 21 (delta 12), pack-reused 1737
+Receiving objects: 100% (1758/1758), 649.60 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (1047/1047), done.
+
+[root@pradeepkumar-LinuxVM GitExercise]$ ls
+awesome-public-datasets
+
+[root@pradeepkumar-LinuxVM GitExercise]$
+```
+
+## Including Plots
+
+
+```{r pressure, echo=TRUE}
+df <- read.csv('/Users/pradeepkumar/Downloads/titanic.csv',sep=',')
+
+
+print(paste("Number of Males are ",length(df$Sex[df$Sex == 'male'])))
+print(paste("Number of Females are ",length(df$Sex[df$Sex == 'female'])))
+count <- c(length(df$Sex[df$Sex == "male"]),  length(df$Sex[df$Sex == "female"]))
+barplot(count, names.arg = c('male','female'))
+
+tapply(df$Age,df$Survived, mean,na.rm=TRUE)
+tapply(df$Fare,df$Survived, mean,na.rm=TRUE)
+
+
+```
+
+## QUESTION 3
+### 3a.
+```{r , echo=TRUE}
+
+download.file('http://talklab.psy.gla.ac.uk/L1_labs/lab_1/homework/sleep_data_01.csv',"sleepdata.csv")
+
+df <- read.csv('/Users/pradeepkumar/sleepdata.csv',sep=',')
+
+medianAge <- function(df){
+  median(df$Age, na.rm=TRUE)
+}
+
+maxDuration <- function(df){
+  max(df$Duration, na.rm = TRUE)
+}
+
+minDuration <- function(df){
+  min(df$Duration, na.rm = TRUE)
+}
+
+meanRSES <- function(df){
+  mean(df$RSES, na.rm = TRUE)
+}
+
+sdRSES <- function(df){
+  sd(df$RSES, na.rm = TRUE)
+}
+
+```
+
+### 3b, 3c and 3d
+```{r , echo=TRUE}
+fn1 <- function(df){
+  report <- data.frame(MedianAge=medianAge(df), 
+             DurationRange=maxDuration(df) - minDuration(df),
+             SelfEsteem = meanRSES(df)/5, 
+             SE_SD = sdRSES(df))/5
+  round(report, digits = 2)
+}
+```
+### 3e
+```{r , echo=TRUE}
+processed <- fn1(df)
+head(processed)
+```
+
+## QUESTION 4
+
+### 4a
+
+``` {r, echo=TRUE}
+
+library(fivethirtyeight)
+```
+
+``` {r, echo=TRUE}
+# List all data sets
+data(package = "fivethirtyeight")
+# Load the 22nd data set
+df <- college_recent_grads
+
+```
+
+``` {r, echo=TRUE}
+dim(college_recent_grads)
+colnames(college_recent_grads)
+```
+
+## QUESTION 5
+
+### 5a
+
+``` {r, echo=TRUE}
+getcolnames <- function(df){
+  colnames(df)
+
+}
+
+getcolcount <- function(df){
+  length(colnames(df))
+}
+```
+### 5b
+``` {r, echo=TRUE}
+library(plyr)
+major_count = count(df, 'major_category')
+major_count
+par(las=2)
+```
+
+### 5c
+``` {r, echo=TRUE}
+barplot(major_count$freq, names.arg = major_count$major_category, col='yellow', ylab='Freq', horiz = TRUE, main="choice of major categories by recent grad students ")
+```
+
+### 5d
+``` {r, echo=TRUE}
+write.csv(college_recent_grads, file='college_recent_grads.csv', row.names = FALSE)
+
+```
+
