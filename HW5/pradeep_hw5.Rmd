@@ -1,0 +1,114 @@
+---
+title: "pradeep_hw5"
+author: "pradeepkumar"
+date: "6/8/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+# Question 1
+```{r ,echo=TRUE}
+
+library('knitr')
+
+```
+### Part a
+### Reading the file into data frame and assign col names
+```{r ,echo=TRUE}
+df <- read.table('yob2016.txt', sep=";")
+colnames(df) <- c('Name','Sex','Count')
+```
+### Part b
+### Print Summary and Dimension 
+```{r ,echo=TRUE}
+summary(df)
+dim(df)
+```
+### Part c
+### Find the row with name ending with yyy
+```{r ,echo=TRUE}
+row_num <- grep('yyy$', df$Name)
+print(df[row_num,])
+```
+### Part d
+### Remove the row with name ending with yyy
+```{r ,echo=TRUE}
+y2016 <- df[-c(row_num),]
+```
+
+# Question 2
+### Part a
+### Read the 2015 data
+```{r ,echo=TRUE}
+y2015 <- read.table('yob2015.txt', sep=",")
+colnames(y2015) <- c('Name','Sex','Count')
+```
+
+### Part b
+#### It is surprising to see that the count of kids 
+#### who got these last 10 names are exactly 5 for each name in Year 2015
+
+```{r ,echo=TRUE}
+kable(tail(y2015,10))
+```
+
+### Part c
+### Merge the data from 2015 and 2016
+```{r ,echo=TRUE}
+final <- merge(y2016, y2015, by=c('Name','Sex'))
+
+```
+
+### Remove any rows with NA
+```{r ,echo=TRUE}
+na_count <- length(which(is.na(final)))
+if (na_count > 0){
+  final[-c(which(is.na(final))),]
+
+}
+```
+
+# Question 3
+### Part a
+```{r ,echo=TRUE}
+Total<- c(final$Count.x + final$Count.y)
+
+final <- cbind(final, Total)
+```
+
+### Part b
+```{r ,echo=TRUE}
+final <- final[order(final$Total),]
+
+kable(tail(final,10))
+```
+
+### Part c
+### Get Only Girl Names
+```{r ,echo=TRUE}
+girls <- final[final$Sex == 'F',]
+
+most_popular <- tail(girls,10)
+kable(most_popular)
+```
+
+### Part d
+### Write the 10 most popular names to csv
+```{r ,echo=TRUE}
+write.csv(most_popular, file='most_popular_girls.txt')
+
+```
+
+
+
+
+
