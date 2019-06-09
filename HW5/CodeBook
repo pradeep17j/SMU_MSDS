@@ -1,0 +1,17 @@
+
+We have data about names of newborns, born in year 2015 and year 2016.
+They are in files in text form. Read the files into data frame and assign column names. Names column will contain the names of new borns.
+Sex will contain M or F letter indicating Male or Female.
+Count column will contain the amount of children give that particular name.
+
+The following task will be performed while doing data analysis.
+The first step is to clean the data for any missing velues. Then find a name with typo and drop the row.
+Merge the data from year 2015 and 2016 and sum the amount in Count column for each particular Name.
+Finally , the 10 most popular girls names will be printed as a table.
+
+
+1. Create a new directory. Eg: mkdir -p HW5
+2. Place the data files yob2015.txt and yob2016.txt inside HW5
+3. Place the R Markdown file, pradeep_hw5.Rmd into HW5 directory.
+4. Knit the R Markdown file to generate the html file.
+5. The HTML file has the description of R code that is executed as part of knitting. 
